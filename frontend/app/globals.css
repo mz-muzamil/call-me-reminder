@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 216 33% 97%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 215 25% 92%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 215 28% 92%;
+  --muted-foreground: 215 18% 45%;
+  --accent: 227 100% 96%;
+  --accent-foreground: 222 47% 11%;
+  --border: 214 24% 88%;
+  --ring: 221 83% 53%;
+  --success: 142 72% 45%;
+  --warning: 39 100% 50%;
+  --danger: 0 84% 60%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+::selection {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.container-wide {
+  margin: 0 auto;
+  width: min(1200px, 92vw);
+}
+
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
