@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: 216 33% 97%;
+  --background: 210 40% 98%;
   --foreground: 222 47% 11%;
   --card: 0 0% 100%;
   --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
   --primary: 221 83% 53%;
   --primary-foreground: 210 40% 98%;
   --secondary: 215 25% 92%;
@@ -15,47 +17,65 @@
   --muted-foreground: 215 18% 45%;
   --accent: 227 100% 96%;
   --accent-foreground: 222 47% 11%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 210 40% 98%;
   --border: 214 24% 88%;
+  --input: 214 24% 88%;
   --ring: 221 83% 53%;
-  --success: 142 72% 45%;
-  --warning: 39 100% 50%;
-  --danger: 0 84% 60%;
+  --radius: 0.75rem;
+  --shadow-soft: 0 12px 28px -18px rgba(15, 23, 42, 0.28);
+  --shadow-card: 0 18px 36px -24px rgba(15, 23, 42, 0.18);
+  --shadow-elevated: 0 30px 70px -40px rgba(15, 23, 42, 0.25);
+}
+
+.dark {
+  --background: 222 47% 8%;
+  --foreground: 210 40% 96%;
+  --card: 222 40% 13%;
+  --card-foreground: 210 40% 96%;
+  --popover: 222 40% 13%;
+  --popover-foreground: 210 40% 96%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 222 32% 18%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 222 30% 16%;
+  --muted-foreground: 214 19% 65%;
+  --accent: 222 35% 18%;
+  --accent-foreground: 210 40% 96%;
+  --destructive: 0 70% 45%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 222 24% 20%;
+  --input: 222 24% 20%;
+  --ring: 217 91% 60%;
+  --shadow-soft: 0 12px 30px -18px rgba(2, 6, 23, 0.6);
+  --shadow-card: 0 16px 40px -24px rgba(2, 6, 23, 0.75);
+  --shadow-elevated: 0 26px 60px -28px rgba(2, 6, 23, 0.8);
 }
 
 * {
   box-sizing: border-box;
 }
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   min-height: 100vh;
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
   font-family: "Inter", system-ui, -apple-system, sans-serif;
-}
-
-::selection {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-}
-
-.container-wide {
-  margin: 0 auto;
-  width: min(1200px, 92vw);
-}
-
-.card-grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .card-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .card-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 }

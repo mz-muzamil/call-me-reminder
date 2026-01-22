@@ -1,25 +1,34 @@
+"use client";
+
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
-import { ReminderStatus } from "@/lib/types";
 
-const statusStyles: Record<ReminderStatus, string> = {
-  scheduled: "bg-blue-50 text-blue-700",
-  completed: "bg-emerald-50 text-emerald-700",
-  failed: "bg-rose-50 text-rose-700"
-};
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "border-transparent bg-primary text-primary-foreground",
+        secondary: "border-transparent bg-secondary text-secondary-foreground",
+        destructive: "border-transparent bg-destructive text-destructive-foreground",
+        outline: "text-foreground"
+      }
+    },
+    defaultVariants: {
+      variant: "default"
+    }
+  }
+);
 
-interface BadgeProps {
-  status: ReminderStatus;
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof badgeVariants> {
+  className?: string;
 }
 
-export default function Badge({ status }: BadgeProps) {
-  return (
-    <span
-      className={cn(
-        "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide",
-        statusStyles[status]
-      )}
-    >
-      {status}
-    </span>
-  );
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return <div className={cn(badgeVariants({ variant }), className)} {...props} />;
 }
+
+export { Badge, badgeVariants };

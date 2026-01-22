@@ -6,6 +6,5 @@ export interface Reminder {
   message: string;
   phoneNumber: string;
   scheduledFor: string;
-  timezone: string;
   status: ReminderStatus;
 }

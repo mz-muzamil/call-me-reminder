@@ -1,10 +1,12 @@
 import type { Config } from "tailwindcss";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const animate = require("tailwindcss-animate");
 
 const config: Config = {
+  darkMode: ["class"],
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./hooks/**/*.{js,ts,jsx,tsx,mdx}",
     "./lib/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
@@ -14,6 +16,8 @@ const config: Config = {
         foreground: "hsl(var(--foreground))",
         card: "hsl(var(--card))",
         "card-foreground": "hsl(var(--card-foreground))",
+        popover: "hsl(var(--popover))",
+        "popover-foreground": "hsl(var(--popover-foreground))",
         primary: "hsl(var(--primary))",
         "primary-foreground": "hsl(var(--primary-foreground))",
         secondary: "hsl(var(--secondary))",
@@ -22,23 +26,25 @@ const config: Config = {
         "muted-foreground": "hsl(var(--muted-foreground))",
         accent: "hsl(var(--accent))",
         "accent-foreground": "hsl(var(--accent-foreground))",
+        destructive: "hsl(var(--destructive))",
+        "destructive-foreground": "hsl(var(--destructive-foreground))",
         border: "hsl(var(--border))",
-        ring: "hsl(var(--ring))",
-        success: "hsl(var(--success))",
-        warning: "hsl(var(--warning))",
-        danger: "hsl(var(--danger))"
-      },
-      boxShadow: {
-        soft: "0 10px 30px -18px rgba(15, 23, 42, 0.45)",
-        card: "0 14px 30px -18px rgba(15, 23, 42, 0.25)"
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))"
       },
       borderRadius: {
-        xl: "1rem",
-        "2xl": "1.25rem"
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)"
+      },
+      boxShadow: {
+        soft: "var(--shadow-soft)",
+        card: "var(--shadow-card)",
+        elevated: "var(--shadow-elevated)"
       }
     }
   },
-  plugins: []
+  plugins: [animate]
 };
 
 export default config;
