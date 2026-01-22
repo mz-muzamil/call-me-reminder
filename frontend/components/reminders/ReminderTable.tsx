@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { reminders as mockReminders } from "@/lib/mockReminders";
 import { Reminder, ReminderStatus } from "@/lib/types";
 import { formatReminderDate, getCountdownLabel, maskPhone } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import EmptyState from "@/components/reminders/EmptyState";
 import { cn } from "@/lib/cn";
 
 const filters: Array<{ label: string; value: ReminderStatus | "all" }> = [
@@ -42,17 +40,50 @@ const statusBadge: Record<
 };
 
 export default function ReminderTable() {
+  const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<ReminderStatus | "all">("all");
   const [query, setQuery] = useState("");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    fetchReminders();
   }, []);
+
+  const fetchReminders = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/reminders/`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch reminders");
+      }
+      const data: any[] = await res.json();
+
+      // Map backend response to frontend attributes
+      const mappedReminders: Reminder[] = data.map((item) => ({
+        id: item.id,
+        title: item.title || "Untitled",
+        message: item.message,
+        phoneNumber: item.phone_number,
+        scheduledFor: item.scheduled_at,
+        status: item.status,
+      }));
+
+      setReminders(mappedReminders);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching reminders", err);
+      setError("Failed to load reminders");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filtered = useMemo(() => {
     const search = query.trim().toLowerCase();
-    return mockReminders
+    return reminders
       .filter((reminder) =>
         statusFilter === "all" ? true : reminder.status === statusFilter
       )
@@ -64,11 +95,19 @@ export default function ReminderTable() {
         );
       })
       .sort((a, b) => new Date(a.scheduledFor).getTime() - new Date(b.scheduledFor).getTime());
-  }, [query, statusFilter]);
+  }, [reminders, query, statusFilter]);
 
   const handleDelete = (reminder: Reminder) => {
     console.log("Delete reminder", reminder.id);
   };
+
+  if (loading) {
+    return <div className="p-10 text-center text-muted-foreground">Loading reminders...</div>;
+  }
+
+  if (error) {
+    return <div className="p-10 text-center text-destructive">{error}</div>;
+  }
 
   return (
     <div className="space-y-4">
@@ -103,7 +142,7 @@ export default function ReminderTable() {
       </div>
 
       {filtered.length === 0 ? (
-        <EmptyState />
+        <div className="p-10 text-center text-muted-foreground">No reminders set</div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-border bg-card shadow-elevated">
           <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto] gap-4 border-b border-border px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">

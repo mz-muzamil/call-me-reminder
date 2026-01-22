@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./reminders.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./db/reminders.db")
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 
