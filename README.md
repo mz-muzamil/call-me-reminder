@@ -72,6 +72,15 @@ A production-grade FastAPI backend that schedules reminders and triggers outboun
 - **Status Tracking**: Tracks reminder state (`scheduled` -> `calling` -> `completed` / `failed`).
 - **Vapi Integration**: Triggers phone calls with a custom message.
 
+### Background Job
+
+The backend includes an automatic background scheduler (using `APScheduler`) that starts when the application launches. 
+
+- **Function**: Polls the database every 30 seconds for reminders that are due (`scheduled_at` <= now) and in the `scheduled` state.
+- **Action**: Triggers a phone call via Vapi for each due reminder and updates its status.
+- **Verification**: You can verify the job is running by checking the server logs for the message: `Polling for due reminders...`
+
+
 ### Prerequisites
 
 - Python 3.9+
