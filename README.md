@@ -10,26 +10,20 @@ The dashboard uses mock data and the create form logs a payload to the browser c
 
 ## Run the app (step by step)
 
-1) Open a terminal in the repo root:
-
-```
-cd d:\work\tests\call-reminder-app
-```
-
-2) Install frontend dependencies:
+1) Install frontend dependencies:
 
 ```
 cd frontend
 npm install
 ```
 
-3) Start the development server:
+2) Start the development server:
 
 ```
 npm run dev
 ```
 
-4) Open the app in your browser:
+3) Open the app in your browser:
 
 ```
 http://localhost:3000
